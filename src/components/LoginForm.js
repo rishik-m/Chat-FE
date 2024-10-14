@@ -25,7 +25,7 @@ const LoginForm = () => {
       <Typography variant="h5">Login</Typography>
       <form onSubmit={handleSubmit}>
         <TextField
-          label="Username or Email"
+          label="Username"
           variant="outlined"
           fullWidth
           required

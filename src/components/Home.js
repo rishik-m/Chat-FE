@@ -14,7 +14,6 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const [selectedSession, setSelectedSession] = useState(null);
   const navigate = useNavigate();
-  // Simulate getting the logged-in user from localStorage
   const user = JSON.parse(localStorage.getItem("user")) || {
     username: "Guest",
   };
@@ -22,7 +21,6 @@ const Home = () => {
   const handleLogout = () => {
     localStorage.clear();
     navigate("/", { replace: true });
-    // Redirect to login or home page as needed
   };
 
   return (

@@ -19,7 +19,6 @@ const SessionComponent = ({ onSelectSession }) => {
   const userObj = JSON.parse(localStorage.getItem("user"));
   const userId = userObj.id;
 
-  // Fetch chat sessions on component mount
   useEffect(() => {
     const fetchSessions = async () => {
       const response = await fetch(
@@ -32,7 +31,6 @@ const SessionComponent = ({ onSelectSession }) => {
     fetchSessions();
   }, []);
 
-  // Handle adding a new session
   const handleAddSession = async () => {
     if (!sessionName) {
       alert("Session name cannot be empty."); // Alert if the name is invalid
@@ -47,21 +45,20 @@ const SessionComponent = ({ onSelectSession }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: userId, // Adjust based on your context
-          sessionName: sessionName, // Use sessionName directly (already stripped of spaces)
+          userId: userId,
+          sessionName: sessionName,
         }),
       }
     );
 
     if (response.ok) {
-      setSessionName(""); // Reset sessionName
-      setOpenModal(false); // Close the modal
-      // Fetch updated sessions
+      setSessionName("");
+      setOpenModal(false);
       const updatedResponse = await fetch(
         `https://tasteful-action-aefc460dc7.strapiapp.com/api/chat-session-by-user/${userObj.username}`
       );
       const updatedData = await updatedResponse.json();
-      setSessions(updatedData); // Update the sessions list
+      setSessions(updatedData);
     } else {
       console.error("Failed to create session");
     }
@@ -106,7 +103,6 @@ const SessionComponent = ({ onSelectSession }) => {
             fullWidth
             value={sessionName}
             onChange={(e) => {
-              // Replace spaces with empty string
               const newValue = e.target.value.replace(/\s/g, "");
               setSessionName(newValue);
             }}

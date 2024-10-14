@@ -1,4 +1,3 @@
-// App.js
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import AuthProvider from "./contexts/AuthContext";
@@ -17,22 +16,10 @@ const App = () => {
 };
 
 const Main = () => {
-  const { user } = useAuth(); // Get user from context
+  const { user } = useAuth();
 
   return (
     <Routes>
-      {/* <Route
-        path="/"
-        element={<Navigate to={user ? "/home" : "/login"} replace />}
-      /> */}
-      {/* <Route
-        path="/home"
-        element={
-          <PrivateRoute>
-            <Home />
-          </PrivateRoute>
-        }
-      /> */}
       <Route path="/" element={<Navigate to="/home" />} />
       <Route
         path="/home"

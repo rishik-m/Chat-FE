@@ -17,7 +17,6 @@ import io from "socket.io-client";
 const SOCKET_SERVER_URL = "https://tasteful-action-aefc460dc7.strapiapp.com";
 const socket = io(SOCKET_SERVER_URL);
 
-// Styled components for messages
 const Message = styled(Paper)(({ theme, from = "client" }) => ({
   marginBottom: theme.spacing(1),
   padding: theme.spacing(1),
@@ -41,7 +40,6 @@ const ChatComponent = ({ selectedSessionId, selectedSessionName }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
 
-  // Fetch messages when a session is selected
   useEffect(() => {
     const fetchMessages = async () => {
       if (selectedSessionName) {
@@ -56,11 +54,8 @@ const ChatComponent = ({ selectedSessionId, selectedSessionName }) => {
     fetchMessages();
   }, [selectedSessionName]);
 
-  // Set up socket connection and event listeners
   useEffect(() => {
     socket.connect();
-
-    // Listen for incoming messages
     socket.on("message", (data) => {
       setMessages((prevMessages) => [
         ...prevMessages,
@@ -77,7 +72,6 @@ const ChatComponent = ({ selectedSessionId, selectedSessionName }) => {
     };
   }, []);
 
-  // Handle sending a new message
   const handleSendMessage = () => {
     if (!newMessage.trim()) {
       alert("Message cannot be empty.");
@@ -87,14 +81,12 @@ const ChatComponent = ({ selectedSessionId, selectedSessionName }) => {
     const userObj = JSON.parse(localStorage.getItem("user"));
     const currentUserId = userObj.id;
 
-    // Emit the message through the socket
     socket.emit("sendMessage", {
       userId: currentUserId,
       message: newMessage.trim(),
       sessionId: selectedSessionId,
     });
 
-    // Add the client message to the messages array
     setMessages((prevMessages) => [
       ...prevMessages,
       {
@@ -103,7 +95,7 @@ const ChatComponent = ({ selectedSessionId, selectedSessionName }) => {
       },
     ]);
 
-    setNewMessage(""); // Clear input
+    setNewMessage("");
   };
 
   return (
