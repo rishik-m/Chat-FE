@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import AuthProvider from "./contexts/AuthContext";
+import Home from "./components/Home";
+import LoginForm from "./components/LoginForm";
+import RegistrationForm from "./components/RegistrationForm";
+import PrivateRoute from "./components/PrivateRoute";
+import useAuth from "./hooks/useAuth";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <Main />
+    </AuthProvider>
   );
-}
+};
+
+const Main = () => {
+  const { user } = useAuth(); // Get user from context
+
+  return (
+    <Routes>
+      {/* <Route
+        path="/"
+        element={<Navigate to={user ? "/home" : "/login"} replace />}
+      /> */}
+      {/* <Route
+        path="/home"
+        element={
+          <PrivateRoute>
+            <Home />
+          </PrivateRoute>
+        }
+      /> */}
+      <Route path="/" element={<Navigate to="/home" />} />
+      <Route
+        path="/home"
+        element={
+          <PrivateRoute>
+            <Home />
+          </PrivateRoute>
+        }
+      />
+      <Route path="/login" element={<LoginForm />} />
+      <Route path="/register" element={<RegistrationForm />} />
+    </Routes>
+  );
+};
 
 export default App;
