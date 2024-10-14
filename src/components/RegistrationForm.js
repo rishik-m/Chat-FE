@@ -9,10 +9,17 @@ const RegistrationForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setPasswordError("");
+
+    if (password.length <= 6) {
+      setPasswordError("Password must be greater than 6 characters.");
+      return;
+    }
     try {
       await register(username, email, password);
       navigate("/login");
@@ -54,6 +61,8 @@ const RegistrationForm = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           margin="normal"
+          error={!!passwordError}
+          helperText={passwordError}
         />
         <Button
           type="submit"
